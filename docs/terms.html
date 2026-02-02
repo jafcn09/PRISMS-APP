@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service - PRISM-PR Review</title>
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">
+                    <span class="logo-icon">◈</span>
+                    <span class="logo-text">PRISM-PR Review</span>
+                </div>
+                <div class="nav-links">
+                    <a href="index.html" class="btn btn-primary" id="back-button"></a>
+                    <button id="lang-toggle" class="icon-btn">
+                        <span class="btn-icon"></span>
+                    </button>
+                    <button id="theme-toggle" class="icon-btn">
+                        <span class="btn-icon"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="policy-content">
+            <div class="container">
+                <h1 class="policy-title" id="page-title"></h1>
+                <p class="policy-date" id="page-date"></p>
+                <div id="policy-sections"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer" id="footer"></footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/theme-toggle.js"></script>
+    <script src="js/language.js"></script>
+    <script>
+        function processContent(content) {
+            const lang = languageManager.getCurrentLang();
+            const buttonText = {
+                en: { email: '📧 Send Email', website: '🌐 Visit Website', github: '💻 View GitHub' },
+                es: { email: '📧 Enviar Email', website: '🌐 Visitar Sitio Web', github: '💻 Ver GitHub' }
+            };
+            const text = buttonText[lang];
+
+            // Check if content has contact buttons
+            const hasButtons = content.includes('[EMAIL]') || content.includes('[WEBSITE]') || content.includes('[GITHUB]');
+
+            if (hasButtons) {
+                let buttons = [];
+
+                // Extract button data
+                const emailMatch = content.match(/\[EMAIL\](.*?)\[\/EMAIL\]/);
+                const websiteMatch = content.match(/\[WEBSITE\](.*?)\[\/WEBSITE\]/);
+                const githubMatch = content.match(/\[GITHUB\](.*?)\[\/GITHUB\]/);
+
+                if (emailMatch) {
+                    buttons.push(`<a href="mailto:${emailMatch[1]}" class="contact-btn">${text.email}</a>`);
+                }
+                if (websiteMatch) {
+                    buttons.push(`<a href="https://${websiteMatch[1]}" target="_blank" rel="noopener noreferrer" class="contact-btn">${text.website}</a>`);
+                }
+                if (githubMatch) {
+                    buttons.push(`<a href="https://github.com/${githubMatch[1]}" target="_blank" rel="noopener noreferrer" class="contact-btn">${text.github}</a>`);
+                }
+
+                // Remove tags from content
+                content = content.replace(/\[EMAIL\].*?\[\/EMAIL\]/g, '');
+                content = content.replace(/\[WEBSITE\].*?\[\/WEBSITE\]/g, '');
+                content = content.replace(/\[GITHUB\].*?\[\/GITHUB\]/g, '');
+
+                // Add buttons container at the end
+                content = content.trim() + '\n\n<div class="contact-buttons">' + buttons.join('') + '</div>';
+            }
+
+            // Convert bullet lists to HTML ul/li
+            const lines = content.split('\n');
+            let result = [];
+            let inList = false;
+            let listItems = [];
+
+            for (let line of lines) {
+                if (line.trim().startsWith('<div class="contact-buttons">')) {
+                    // Add any pending list
+                    if (inList) {
+                        result.push('<ul>' + listItems.join('') + '</ul>');
+                        listItems = [];
+                        inList = false;
+                    }
+                    result.push(line);
+                } else if (line.trim().startsWith('•')) {
+                    if (!inList) {
+                        inList = true;
+                    }
+                    listItems.push('<li>' + line.trim().substring(1).trim() + '</li>');
+                } else {
+                    if (inList) {
+                        result.push('<ul>' + listItems.join('') + '</ul>');
+                        listItems = [];
+                        inList = false;
+                    }
+                    if (line.trim()) {
+                        result.push('<p>' + line + '</p>');
+                    }
+                }
+            }
+
+            if (inList) {
+                result.push('<ul>' + listItems.join('') + '</ul>');
+            }
+
+            return result.join('');
+        }
+
+        function renderPage() {
+            const terms = languageManager.t('termsPage');
+            const footer = languageManager.t('footer');
+            const currentYear = new Date().getFullYear();
+
+            // Update document language and title
+            document.documentElement.lang = languageManager.getCurrentLang();
+            document.title = `${terms.title} - PRISM-PR Review`;
+
+            document.getElementById('page-title').textContent = terms.title;
+            document.getElementById('page-date').textContent = terms.lastUpdated;
+            document.getElementById('back-button').textContent = terms.backButton;
+
+            const sectionsHTML = terms.sections.map(section => `
+                <div class="policy-section">
+                    <h2>${section.title}</h2>
+                    <div>${processContent(section.content)}</div>
+                </div>
+            `).join('');
+
+            document.getElementById('policy-sections').innerHTML = sectionsHTML;
+
+            document.getElementById('footer').innerHTML = `
+                <div class="container">
+                    <div class="footer-simple">
+                        <p class="footer-copyright">© ${currentYear} ${footer.author}. ${footer.copyright}</p>
+                        <div class="footer-legal">
+                            <a href="privacy.html" class="footer-link">${footer.privacy}</a>
+                            <a href="terms.html" class="footer-link">${footer.terms}</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderPage();
+
+            const themeToggle = document.getElementById('theme-toggle');
+            const langToggle = document.getElementById('lang-toggle');
+
+            themeToggle.querySelector('.btn-icon').textContent = themeManager.getThemeIcon();
+            themeToggle.title = themeManager.getTooltipText();
+
+            langToggle.querySelector('.btn-icon').textContent = languageManager.getLanguageIcon();
+            langToggle.title = languageManager.getTooltipText();
+
+            themeToggle.addEventListener('click', () => {
+                themeManager.toggle();
+                themeToggle.querySelector('.btn-icon').textContent = themeManager.getThemeIcon();
+                themeToggle.title = themeManager.getTooltipText();
+            });
+
+            langToggle.addEventListener('click', () => {
+                languageManager.toggle();
+                renderPage();
+                langToggle.querySelector('.btn-icon').textContent = languageManager.getLanguageIcon();
+                langToggle.title = languageManager.getTooltipText();
+            });
+        });
+    </script>
+</body>
+</html>
