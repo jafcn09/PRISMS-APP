@@ -2,7 +2,7 @@
   "name": "prism-app",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "start": "node dist/index.js",

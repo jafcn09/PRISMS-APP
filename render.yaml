@@ -2,19 +2,20 @@ services:
   - type: web
     name: prism-pr-analyzer
     env: node
+    runtime: node
     region: oregon
     plan: free
-    buildCommand: npm install && npm run build
+    buildCommand: npm ci && npm run build
     startCommand: npm start
     envVars:
       - key: NODE_ENV
         value: production
       - key: GITHUB_APP_ID
         sync: false
+      - key: GITHUB_PRIVATE_KEY
+        sync: false
       - key: WEBHOOK_SECRET
         sync: false
-      - key: PRIVATE_KEY_PATH
-        value: /opt/render/.ssh/prism-app/prism-pr-review.2026.private-key.pem
       - key: PORT
         value: 10000
       - key: LOG_LEVEL
@@ -24,10 +25,10 @@ services:
       - key: CACHE_TTL
         value: 3600
       - key: ENABLE_SECURITY_ANALYSIS
-        value: true
+        value: "true"
       - key: ENABLE_PERFORMANCE_ANALYSIS
-        value: true
+        value: "true"
       - key: ENABLE_COMPLEXITY_ANALYSIS
-        value: true
+        value: "true"
       - key: ENABLE_SEMANTIC_ANALYSIS
-        value: true
+        value: "true"

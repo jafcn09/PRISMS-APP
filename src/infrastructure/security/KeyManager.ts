@@ -10,6 +10,12 @@ export class KeyManager {
       return this.cachedKey;
     }
 
+    if (process.env.GITHUB_PRIVATE_KEY) {
+      this.cachedKey = process.env.GITHUB_PRIVATE_KEY.replace(/\\n/g, '\n');
+      this.validateKeyContent(this.cachedKey);
+      return this.cachedKey;
+    }
+
     const keyPath = this.resolveKeyPath();
     this.validateKeyPath(keyPath);
 
