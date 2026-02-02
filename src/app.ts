@@ -1,5 +1,7 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { Octokit } from '@octokit/rest';
 import { Environment } from './infrastructure/config/Environment.js';
 import { KeyManager } from './infrastructure/security/KeyManager.js';
@@ -7,6 +9,9 @@ import { AuthMiddleware } from './infrastructure/middleware/AuthMiddleware.js';
 import { WebhookController } from './presentation/controllers/WebhookController.js';
 import { GitHubService } from './infrastructure/github/GitHubService.js';
 import { InMemoryAnalysisRepository } from './infrastructure/repositories/InMemoryAnalysisRepository.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export class App {
   private app: express.Application;
@@ -21,6 +26,9 @@ export class App {
   }
 
   private setupMiddleware(): void {
+    const publicPath = path.join(__dirname, '../public');
+    this.app.use(express.static(publicPath));
+
     this.app.use(
       express.json({
         verify: AuthMiddleware.captureRawBody
@@ -65,6 +73,11 @@ export class App {
         memoryUsage: process.memoryUsage(),
         version: '1.0.0'
       });
+    });
+
+    this.app.get('/', (_req, res) => {
+      const indexPath = path.join(__dirname, '../public/index.html');
+      res.sendFile(indexPath);
     });
   }
 

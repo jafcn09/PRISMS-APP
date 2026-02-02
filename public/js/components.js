@@ -10,13 +10,12 @@ class Components {
         <div class="nav-content">
           <div class="logo">
             <span class="logo-icon">◈</span>
-            <span class="logo-text">PRISM</span>
+            <span class="logo-text">PRISM-PR Review</span>
           </div>
           <div class="nav-links">
             <a href="#features" class="nav-link">${nav.features}</a>
             <a href="#languages" class="nav-link">${nav.languages}</a>
             <a href="#how-it-works" class="nav-link">${nav.howItWorks}</a>
-            <a href="#pricing" class="nav-link">${nav.pricing}</a>
             <button id="lang-toggle" class="icon-btn" title="${this.lang.getTooltipText()}">
               <span class="btn-icon">${this.lang.getLanguageIcon()}</span>
             </button>
@@ -45,7 +44,7 @@ class Components {
             ${hero.description}
           </p>
           <div class="hero-actions animate-fade-in-up">
-            <a href="#get-started" class="btn btn-primary">
+            <a href="${GITHUB_MARKETPLACE_URL}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
               ${hero.ctaPrimary}
               <span class="btn-arrow">→</span>
             </a>
@@ -132,10 +131,10 @@ class Components {
           <h2 class="section-title">${languages.title}</h2>
           <p class="section-subtitle">${languages.subtitle}</p>
         </div>
-        <div class="languages-grid">
-          ${LANGUAGE_LIST.map(lang => `
-            <div class="language-badge animate-on-scroll">${lang}</div>
-          `).join('')}
+        <div class="carousel-container">
+          <div class="carousel-wrapper">
+            <div class="languages-carousel" id="languages-carousel"></div>
+          </div>
         </div>
       </div>
     `;
@@ -163,34 +162,39 @@ class Components {
     `;
   }
 
-  renderPricing() {
-    const pricing = this.lang.t('pricing');
+  renderDemo() {
+    const demo = this.lang.t('demo');
     return `
       <div class="container">
         <div class="section-header">
-          <h2 class="section-title">${pricing.title}</h2>
-          <p class="section-subtitle">${pricing.subtitle}</p>
+          <h2 class="section-title">${demo.title}</h2>
+          <p class="section-subtitle">${demo.subtitle}</p>
         </div>
-        <div class="pricing-grid">
-          ${pricing.plans.map((plan, index) => `
-            <div class="pricing-card ${plan.badge ? 'featured' : ''} animate-on-scroll">
-              ${plan.badge ? `<div class="pricing-badge">${plan.badge}</div>` : ''}
-              <h3 class="pricing-title">${plan.name}</h3>
-              <div class="pricing-price">
-                <span class="price-amount">${plan.price}</span>
-                <span class="price-period">${plan.period}</span>
+        <div class="demo-container">
+          <div class="demo-editor">
+            <div class="code-window">
+              <div class="window-header">
+                <div class="window-dots">
+                  <span class="dot red"></span>
+                  <span class="dot yellow"></span>
+                  <span class="dot green"></span>
+                </div>
+                <div class="window-title">example.js</div>
               </div>
-              <ul class="pricing-features">
-                ${plan.features.map((feature, fi) => `
-                  <li class="feature-item ${PRICING_FEATURES_INCLUDED[index][fi] ? 'included' : 'excluded'}">
-                    <span class="feature-icon">${PRICING_FEATURES_INCLUDED[index][fi] ? '✓' : '×'}</span>
-                    ${feature}
-                  </li>
-                `).join('')}
-              </ul>
-              <a href="#get-started" class="btn ${plan.badge ? 'btn-primary' : 'btn-outline'}">${plan.cta}</a>
+              <div class="window-content">
+                <textarea id="demo-code" class="demo-code-input">${SAMPLE_CODE}</textarea>
+              </div>
             </div>
-          `).join('')}
+            <button id="analyze-btn" class="btn btn-primary demo-analyze-btn">
+              ${demo.analyze}
+            </button>
+          </div>
+          <div class="demo-results" id="demo-results">
+            <div class="demo-placeholder">
+              <span class="demo-icon">◈</span>
+              <p>${demo.results}</p>
+            </div>
+          </div>
         </div>
       </div>
     `;
@@ -201,31 +205,11 @@ class Components {
     const currentYear = new Date().getFullYear();
     return `
       <div class="container">
-        <div class="footer-content">
-          <div class="footer-brand">
-            <div class="logo">
-              <span class="logo-icon">◈</span>
-              <span class="logo-text">PRISM</span>
-            </div>
-            <p class="footer-description">${footer.description}</p>
-          </div>
-          <div class="footer-links">
-            ${footer.columns.map(column => `
-              <div class="footer-column">
-                <h4 class="footer-title">${column.title}</h4>
-                ${column.links.map(link => `
-                  <a href="#" class="footer-link">${link}</a>
-                `).join('')}
-              </div>
-            `).join('')}
-          </div>
-        </div>
-        <div class="footer-bottom">
-          <p class="footer-copyright">© ${currentYear} PRISM. ${footer.copyright}</p>
+        <div class="footer-simple">
+          <p class="footer-copyright">© ${currentYear} ${footer.author}. ${footer.copyright}</p>
           <div class="footer-legal">
-            ${footer.legal.map(item => `
-              <a href="#" class="footer-link">${item}</a>
-            `).join('')}
+            <a href="privacy.html" class="footer-link">${footer.privacy}</a>
+            <a href="terms.html" class="footer-link">${footer.terms}</a>
           </div>
         </div>
       </div>
@@ -233,15 +217,28 @@ class Components {
   }
 
   renderAll() {
+    // Update document title
+    const lang = languageManager.getCurrentLang();
+    const title = lang === 'en' ? 'PRISM-PR Review - Semantic PR Analyzer' : 'PRISM-PR Review - Analizador Semántico de PR';
+    document.title = title;
+    document.documentElement.lang = lang;
+
     document.getElementById('navbar').innerHTML = this.renderNavbar();
     document.getElementById('hero').innerHTML = this.renderHero();
     document.getElementById('features').innerHTML = this.renderFeatures();
+    document.getElementById('demo').innerHTML = this.renderDemo();
     document.getElementById('languages').innerHTML = this.renderLanguages();
     document.getElementById('how-it-works').innerHTML = this.renderHowItWorks();
-    document.getElementById('pricing').innerHTML = this.renderPricing();
     document.getElementById('footer').innerHTML = this.renderFooter();
 
     this.attachEventListeners();
+    this.attachDemoListeners();
+    this.initCarousel();
+
+    // Reinitialize scroll animations for new elements
+    if (window.animationController) {
+      window.animationController.observeElements();
+    }
   }
 
   attachEventListeners() {
@@ -258,16 +255,138 @@ class Components {
     if (langToggle) {
       langToggle.addEventListener('click', () => {
         languageManager.toggle();
+        // updatePage() is called automatically by languageManager, which calls renderAll()
       });
     }
+
+    // Initialize tooltips
+    this.updateTooltips();
   }
 
   updateTooltips() {
     const themeToggle = document.getElementById('theme-toggle');
+    const langToggle = document.getElementById('lang-toggle');
+
     if (themeToggle) {
       themeToggle.title = themeManager.getTooltipText();
       themeToggle.querySelector('.btn-icon').textContent = themeManager.getThemeIcon();
     }
+
+    if (langToggle) {
+      langToggle.title = languageManager.getTooltipText();
+      langToggle.querySelector('.btn-icon').textContent = languageManager.getLanguageIcon();
+    }
+  }
+
+  attachDemoListeners() {
+    const analyzeBtn = document.getElementById('analyze-btn');
+    const demoCode = document.getElementById('demo-code');
+    const demoResults = document.getElementById('demo-results');
+
+    if (analyzeBtn && demoCode && demoResults) {
+      analyzeBtn.addEventListener('click', () => {
+        const demo = this.lang.t('demo');
+        analyzeBtn.textContent = demo.analyzing;
+        analyzeBtn.disabled = true;
+
+        setTimeout(() => {
+          const code = demoCode.value;
+          const analysis = this.analyzeCode(code);
+
+          demoResults.innerHTML = `
+            <div class="analysis-result">
+              <h3>${demo.results}</h3>
+              ${analysis}
+            </div>
+          `;
+
+          analyzeBtn.textContent = demo.analyze;
+          analyzeBtn.disabled = false;
+        }, 1500);
+      });
+    }
+  }
+
+  analyzeCode(code) {
+    const issues = [];
+
+    if (code.includes('var ')) {
+      issues.push({ type: 'warning', message: 'Use const or let instead of var', line: code.indexOf('var ') });
+    }
+
+    if (code.includes('==')) {
+      issues.push({ type: 'warning', message: 'Use === instead of ==', line: code.indexOf('==') });
+    }
+
+    const lines = code.split('\n');
+    let complexity = 0;
+    lines.forEach(line => {
+      if (line.includes('for') || line.includes('while') || line.includes('if')) {
+        complexity++;
+      }
+    });
+
+    if (complexity > 3) {
+      issues.push({ type: 'info', message: 'High cyclomatic complexity detected', line: 0 });
+    }
+
+    if (issues.length === 0) {
+      return `
+        <div class="analysis-item success">
+          <span class="analysis-icon">✓</span>
+          <span>No issues found</span>
+        </div>
+      `;
+    }
+
+    return issues.map(issue => `
+      <div class="analysis-item ${issue.type}">
+        <span class="analysis-icon">${issue.type === 'warning' ? '⚠' : 'ℹ'}</span>
+        <span>${issue.message}</span>
+      </div>
+    `).join('');
+  }
+
+  initCarousel() {
+    const carousel = document.getElementById('languages-carousel');
+    const dotsContainer = document.getElementById('carousel-dots');
+
+    if (!carousel) return;
+
+    carousel.innerHTML = LANGUAGE_LIST.map(lang => `
+      <div class="language-badge">${lang}</div>
+    `).join('') + LANGUAGE_LIST.map(lang => `
+      <div class="language-badge">${lang}</div>
+    `).join('');
+
+    const totalItems = LANGUAGE_LIST.length;
+    const itemsPerView = window.innerWidth >= 1024 ? 6 : window.innerWidth >= 768 ? 4 : 2;
+    let currentIndex = 0;
+
+    const updateCarousel = () => {
+      const itemWidth = 100 / itemsPerView;
+      const offset = currentIndex * itemWidth;
+      carousel.style.transform = `translateX(-${offset}%)`;
+
+      if (currentIndex >= totalItems) {
+        setTimeout(() => {
+          carousel.style.transition = 'none';
+          currentIndex = 0;
+          carousel.style.transform = 'translateX(0%)';
+          setTimeout(() => {
+            carousel.style.transition = 'transform 0.5s ease-in-out';
+          }, 50);
+        }, 500);
+      }
+    };
+
+    const autoSlide = () => {
+      currentIndex++;
+      updateCarousel();
+    };
+
+    setInterval(autoSlide, 2000);
+    updateCarousel();
   }
 }
 

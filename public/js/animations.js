@@ -101,3 +101,4 @@ class AnimationController {
 }
 
 const animationController = new AnimationController();
+window.animationController = animationController;
