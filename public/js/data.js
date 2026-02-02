@@ -19,13 +19,14 @@ const TRANSLATIONS = {
       badge: 'Supporting 12+ Languages',
       title: 'Semantic Analysis for',
       titleHighlight: 'Pull Requests',
-      description: 'Automated code quality analysis, security scanning, and performance insights for your GitHub Pull Requests. Make informed decisions with AI-powered code review.',
-      ctaPrimary: 'Download',
+      description: 'Semantic analysis that explains what changes in a Pull Request and where the risk is.',
+      ctaPrimary: 'Add to GitHub',
       ctaSecondary: 'View Live Demo',
       stats: {
         languages: 'Languages',
         analysisTypes: 'Analysis Types',
-        prsAnalyzed: 'PRs Analyzed'
+        prsAnalyzed: 'Real-time PR Analysis',
+        prsAnalyzedValue: 'Real-time'
       }
     },
     demo: {
@@ -70,8 +71,8 @@ const TRANSLATIONS = {
       subtitle: 'Simple setup, powerful results',
       steps: [
         {
-          title: 'Install GitHub App',
-          description: 'Install PRISM on your GitHub repositories with one click'
+          title: 'Activate on GitHub',
+          description: 'Activate PRISM on your GitHub repositories with one click'
         },
         {
           title: 'Open Pull Request',
@@ -214,13 +215,14 @@ const TRANSLATIONS = {
       badge: 'Soporta más de 12 lenguajes',
       title: 'Análisis Semántico para',
       titleHighlight: 'Pull Requests',
-      description: 'Análisis automatizado de calidad de código, escaneo de seguridad y perspectivas de rendimiento para tus Pull Requests de GitHub. Toma decisiones informadas con revisión de código potenciada por IA.',
-      ctaPrimary: 'Descargar',
+      description: 'Análisis semántico que explica qué cambia en un Pull Request y dónde está el riesgo.',
+      ctaPrimary: 'Agregar a GitHub',
       ctaSecondary: 'Ver Demo en Vivo',
       stats: {
         languages: 'Lenguajes',
         analysisTypes: 'Tipos de Análisis',
-        prsAnalyzed: 'PRs Analizados'
+        prsAnalyzed: 'Análisis de PR en Tiempo Real',
+        prsAnalyzedValue: 'Tiempo Real'
       }
     },
     demo: {
@@ -265,8 +267,8 @@ const TRANSLATIONS = {
       subtitle: 'Configuración simple, resultados poderosos',
       steps: [
         {
-          title: 'Instalar GitHub App',
-          description: 'Instala PRISM en tus repositorios de GitHub con un click'
+          title: 'Activar en GitHub',
+          description: 'Activa PRISM en tus repositorios de GitHub con un click'
         },
         {
           title: 'Abrir Pull Request',

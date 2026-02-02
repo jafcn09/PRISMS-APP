@@ -63,7 +63,7 @@ class Components {
               <div class="stat-label">${hero.stats.analysisTypes}</div>
             </div>
             <div class="stat">
-              <div class="stat-number">${STATS.prsAnalyzed}</div>
+              <div class="stat-number">${hero.stats.prsAnalyzedValue}</div>
               <div class="stat-label">${hero.stats.prsAnalyzed}</div>
             </div>
           </div>
