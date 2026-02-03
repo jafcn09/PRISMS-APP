@@ -371,13 +371,7 @@ src/
 └── presentation/     # API y controladores
 ```
 
-### Contribuir
 
-1. Hacer fork del repositorio
-2. Crear tu rama de funcionalidad (`git checkout -b feature/funcionalidad-increible`)
-3. Hacer commit de tus cambios (`git commit -m 'Agregar funcionalidad increíble'`)
-4. Hacer push a la rama (`git push origin feature/funcionalidad-increible`)
-5. Abrir un Pull Request
 
 ---
 
