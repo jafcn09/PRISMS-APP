@@ -12,7 +12,8 @@ PRISM is an advanced semantic analyzer for GitHub Pull Requests that provides co
 
 ### Features
 
-- **Multi-language Support**: TypeScript, JavaScript, Java, Go, C#, Rust, Dart, Python, Ruby, PHP, Swift, Kotlin
+- **Multi-language Support**: TypeScript, JavaScript, Java, Go, C#, Rust, Dart, Python, Ruby, PHP, Swift, Kotlin.<img width="1220" height="552" alt="image" src="https://github.com/user-attachments/assets/b66a436b-62cb-40ba-8f83-39f038ab45c4" />
+
 - **Comprehensive Analysis**:
   - Semantic analysis for code quality
   - Security vulnerability detection
@@ -37,29 +38,7 @@ git clone https://github.com/yourusername/prism-app.git
 cd prism-app
 ```
 
-2. **Install dependencies**
-```bash
-npm install
-```
 
-3. **Configure environment variables**
-```bash
-cp .env.example .env
-```
-
-Edit `.env` with your configuration:
-```env
-GITHUB_APP_ID=your_app_id
-WEBHOOK_SECRET=your_webhook_secret
-PRIVATE_KEY_PATH=./prism.pem
-PORT=3000
-NODE_ENV=development
-```
-
-4. **Add your GitHub App private key**
-```bash
-
-chmod 600 prism.pem
 ```
 
 ### Usage
@@ -84,28 +63,7 @@ npm run lint       # Check for TypeScript errors
 npm run clean      # Clean build directory
 ```
 
-### GitHub App Setup
 
-1. **Create a GitHub App**
-   - Go to Settings → Developer settings → GitHub Apps
-   - Click "New GitHub App"
-   - Configure the following:
-     - **Webhook URL**: `https://your-domain.com/webhook`
-     - **Webhook Secret**: Your chosen secret
-     - **Repository permissions**:
-       - Pull requests: Read & Write
-       - Contents: Read
-       - Issues: Write
-     - **Subscribe to events**: Pull request
-
-2. **Install the GitHub App**
-   - Install the app on your repositories
-   - Copy the Installation ID
-
-3. **Configure PRISM**
-   - Add App ID to `.env`
-   - Add Webhook Secret to `.env`
-   - Save private key as `prism.pem`
 
 ### API Endpoints
 
@@ -182,13 +140,6 @@ src/
 └── presentation/     # API and controllers
 ```
 
-### Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
 
 ---
 
@@ -230,28 +181,8 @@ cd prism-app
 npm install
 ```
 
-3. **Configurar variables de entorno**
-```bash
-cp .env.example .env
-```
 
-Edita `.env` con tu configuración:
-```env
-GITHUB_APP_ID=tu_app_id
-WEBHOOK_SECRET=tu_webhook_secret
-PRIVATE_KEY_PATH=./prism.pem
-PORT=3000
-NODE_ENV=development
-```
 
-4. **Agregar tu clave privada de GitHub App**
-```bash
-# Guarda tu clave privada de GitHub App como prism.pem en el directorio raíz
-# Asegura los permisos adecuados
-chmod 600 prism.pem
-```
-
-### Uso
 
 #### Modo Desarrollo
 ```bash
@@ -272,29 +203,7 @@ npm run start      # Iniciar servidor de producción
 npm run lint       # Verificar errores de TypeScript
 npm run clean      # Limpiar directorio de compilación
 ```
-
-### Configuración de GitHub App
-
-1. **Crear una GitHub App**
-   - Ir a Configuración → Configuración de desarrollador → GitHub Apps
-   - Hacer clic en "Nueva GitHub App"
-   - Configurar lo siguiente:
-     - **URL del Webhook**: `https://tu-dominio.com/webhook`
-     - **Secreto del Webhook**: Tu secreto elegido
-     - **Permisos del repositorio**:
-       - Pull requests: Lectura y Escritura
-       - Contenidos: Lectura
-       - Issues: Escritura
-     - **Suscribirse a eventos**: Pull request
-
-2. **Instalar la GitHub App**
-   - Instalar la app en tus repositorios
-   - Copiar el ID de instalación
-
-3. **Configurar PRISM**
-   - Agregar App ID al `.env`
-   - Agregar Webhook Secret al `.env`
-   - Guardar clave privada como `prism.pem`
+`
 
 ### Endpoints de API
 
@@ -361,7 +270,7 @@ npm run clean      # Limpiar directorio de compilación
 
 ### Arquitectura
 
-PRISM sigue principios de Arquitectura Limpia:
+PRISM  principios de Arquitectura Limpia:
 
 ```
 src/
