@@ -12,7 +12,7 @@ PRISM is an advanced semantic analyzer for GitHub Pull Requests that provides co
 
 ### Features
 
-- **Multi-language Support**: TypeScript, JavaScript, Java, Go, C#, Rust, Dart, Python, Ruby, PHP, Swift, Kotlin.<img width="1220" height="552" alt="image" src="https://github.com/user-attachments/assets/b66a436b-62cb-40ba-8f83-39f038ab45c4" />
+- **Multi-language Support**: TypeScript, JavaScript, Java, Go, C#, Rust, Dart, Python, Ruby, PHP, Swift, Kotlin.
 
 - **Comprehensive Analysis**:
   - Semantic analysis for code quality
